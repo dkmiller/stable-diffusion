@@ -37,9 +37,17 @@ For more details on the Image Variation model see the [model card](https://huggi
 - Get access to a Linux machine with a decent NVIDIA GPU (e.g. on [Lambda GPU Cloud](https://lambdalabs.com/service/gpu-cloud))
 - Clone this repo
 - Make sure PyTorch is installed and then install other requirements: `pip install -r requirements.txt`
-- Get model from huggingface hub [lambdalabs/stable-diffusion-image-conditioned](https://huggingface.co/lambdalabs/stable-diffusion-image-conditioned/blob/main/sd-clip-vit-l14-img-embed_ema_only.ckpt)
+- Get model from huggingface hub [lambdalabs/stable-diffusion-image-conditioned](https://huggingface.co/lambdalabs/stable-diffusion-image-conditioned/blob/main/sd-clip-vit-l14-img-embed_ema_only.ckpt):
+  ```bash
+  wget https://huggingface.co/CompVis/stable-diffusion-v-1-4-original/resolve/main/sd-v1-4-full-ema.ckpt
+  ```
 - Put model in `models/ldm/stable-diffusion-v1/sd-clip-vit-l14-img-embed_ema_only.ckpt`
-- Run `scripts/image_variations.py` or `scripts/gradio_variations.py`
+- Run `scripts/image_variations.py` or `scripts/gradio_variations.py`:
+  ```bash
+  python main.py -t --base configs/stable-diffusion/pokemon.yaml --gpus '0' --scale_lr False --check_val_every_n_epoch 10 --finetune_from sd-v1-4-full-ema.ckpt data.params.batch_size=4 lightning.trainer.accumulate_grad_batches=4 data.params.validation.params.n_gpus=1 data.params.num_workers 48
+  ```
+
+> ERROR: Unexpected bus error encountered in worker. This might be caused by insufficient shared memory (shm).
 
 All together:
 ```
