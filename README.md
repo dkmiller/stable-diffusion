@@ -44,10 +44,10 @@ For more details on the Image Variation model see the [model card](https://huggi
 - Put model in `models/ldm/stable-diffusion-v1/sd-clip-vit-l14-img-embed_ema_only.ckpt`
 - Run `scripts/image_variations.py` or `scripts/gradio_variations.py`:
   ```bash
-  python main.py -t --base configs/stable-diffusion/pokemon.yaml --gpus '0' --scale_lr False --check_val_every_n_epoch 10 --finetune_from sd-v1-4-full-ema.ckpt data.params.batch_size=4 lightning.trainer.accumulate_grad_batches=4 data.params.validation.params.n_gpus=1 data.params.num_workers 48
+  python main.py -t --base configs/stable-diffusion/pokemon.yaml --gpus 1 --scale_lr False --num_nodes 1 --check_val_every_n_epoch 10 --finetune_from sd-v1-4-full-ema.ckpt data.params.batch_size=1 lightning.trainer.accumulate_grad_batches=4 data.params.validation.params.n_gpus=1 data.params.num_workers 48
   ```
 
-> ERROR: Unexpected bus error encountered in worker. This might be caused by insufficient shared memory (shm).
+> RuntimeError: CUDA out of memory. Tried to allocate 14.00 MiB (GPU 0; 22.20 GiB total capacity; 20.17 GiB already allocated; 10.12 MiB free; 20.30 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
 
 All together:
 ```
